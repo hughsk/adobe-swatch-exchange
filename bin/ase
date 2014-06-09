@@ -1,0 +1,110 @@
+#!/usr/bin/env node
+
+var fs     = require('fs')
+,   path   = require('path')
+,   exists = fs.existsSync || path.existsSync
+,   ase    = require('../')
+
+
+function fail(s, code){
+    if (Array.isArray(s))
+        console.error.apply(console, s);
+    else
+        console.error(s);
+    process.exit(code || 0);
+}
+
+var parser = require('nomnom')
+    .script('ase')
+    .options({
+        infile: {
+            position : 0,
+            default  : '-',
+            help     : 'Input file. [default: stdin]'
+        },
+        outfile: {
+            position : 1,
+            default  : '-',
+            help     : 'Output path. [default: stdout]'
+        },
+        decode: {
+            abbr     : 'd',
+            flag     : true,
+            default  : true,
+            help     : 'Run in decode mode (the default), taking an ASE file and emitting JSON.'
+        },
+        // encode: {
+        //     abbr     : 'e',
+        //     flag     : true,
+        //     default  : false,
+        //     help     : '[UNSUPPORTED] Run in encode mode, taking a JSON file and emitting the ASE encoding.'
+        // },
+        pretty: {
+            abbr     : 'P',
+            flag     : true,
+            default  : false,
+            help     : 'Pretty-prints output JSON.'
+        }
+    })
+    .printer(fail)
+
+// Prepend a short description for non-error help.
+if (process.argv.indexOf("--help") >= 0 || process.argv.indexOf("-h") >= 0) {
+    parser._getUsage = parser.getUsage;
+    parser.getUsage = function(){
+        return "ase -- Encode/decode color palettes in Adobe's .ase format.\n" + this._getUsage();
+    };
+}
+var opts = parser.parse();
+
+
+
+if (opts.encode)
+    fail('Error: Encoding to .ASE currently unsupported.', 255);
+
+if (opts.infile && opts.infile !== '-' && !exists(opts.infile))
+    fail(["Error: Input file '%s' does not exist!", opts.infile], 1);
+
+var infile    = (!opts.infile  || opts.infile  === '-') ? process.stdin  : fs.createReadStream(opts.infile)
+,   outfile   = (!opts.outfile || opts.outfile === '-') ? process.stdout : fs.createWriteStream(opts.outfile)
+
+if (opts.encode) infile.setEncoding('utf8');
+
+infile
+    .on('error', function(err){
+        fail(["Error reading from the input file:\n%s", err], 1);
+    })
+    .pipe( require('concat-stream')(aseScript) )
+
+
+
+function aseScript(buffer){
+    var data, out;
+    
+    try {
+        if (opts.encode) {
+            try {
+                data = JSON.parse(buffer)
+            } catch (ex) {
+                console.error('Error parsing input JSON!');
+                throw ex;
+            }
+            out = ase.encode(data);
+        } else {
+            data = ase.decode(buffer);
+            try {
+                out = JSON.stringify(data, null, (opts.pretty ? 4 : null));
+            } catch (ex) {
+                console.error('Error converting output to JSON!');
+                throw ex;
+            }
+            outfile.setEncoding('utf8');
+        }
+    } catch (ex) {
+        if (ex.name === 'AssertionError') ex.name = 'Error';
+        fail(String(ex), 2);
+    }
+    
+    outfile.write(out);
+}
+

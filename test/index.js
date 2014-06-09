@@ -1,9 +1,9 @@
 var test = require('tape')
-var ase = require('./')
+var ase = require('../')
 var fs = require('fs')
 
 test('decode', function(t) {
-  var buffer = fs.readFileSync('./sample.ase')
+  var buffer = fs.readFileSync('test/sample.ase')
   var output = require('./sample.json')
 
   t.deepEqual(

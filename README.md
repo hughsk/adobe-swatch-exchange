@@ -2,15 +2,44 @@
 
 Encode/decode color palettes in Adobe's `.ase` format.
 
+
 ## Usage ##
 
 [![adobe-swatch-exchange](https://nodei.co/npm/adobe-swatch-exchange.png?mini=true)](https://nodei.co/npm/adobe-swatch-exchange)
 
-### ase.decode(buffer) ###
+```sh
+npm install -g adobe-swatch-exchange
+```
+
+
+
+### CLI ###
+
+    ase -- Encode/decode color palettes in Adobe's .ase format.
+    
+    Usage: ase [infile] [outfile] [options]
+    
+    infile      Input file. [default: stdin]
+    outfile     Output path. [default: stdout]
+    
+    Options:
+       -d, --decode   Run in decode mode (the default), taking an ASE file and emitting JSON.  [true]
+       -P, --pretty   Pretty-prints output JSON.  [false]
+
+
+
+### API
+
+```js
+var ase = require('adobe-swatch-exchange');
+```
+
+
+#### ase.decode(buffer)
 
 Returns a JSON object representing the contents of the `.ase` file, for example:
 
-``` json
+```js
 {
   "version": "1.0",
   "groups": [],
@@ -27,6 +56,9 @@ Returns a JSON object representing the contents of the `.ase` file, for example:
   }]
 }
 ```
+
+
+
 
 ## License ##
 
