@@ -1,9 +1,15 @@
 {
   "name": "adobe-swatch-exchange",
   "description": "Encode/decode color palettes in Adobe's .ase format",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "index.js",
-  "dependencies": {},
+  "bin": {
+      "ase": "./bin/ase"
+  },
+  "dependencies": {
+      "nomnom": "^1.7.0",
+      "concat-stream": "^1.4.6"
+  },
   "devDependencies": {
     "tape": "^2.12.3",
     "faucet": "^0.0.1"
@@ -12,6 +18,9 @@
     "test": "node test | faucet"
   },
   "author": "Hugh Kennedy <hughskennedy@gmail.com> (http://hughsk.io/)",
+  "contributors": [
+    "David Schoonover <dsc@less.ly> (http://less.ly)"
+  ],
   "license": "MIT",
   "homepage": "http://hughsk.github.io/adobe-swatch-exchange",
   "repository": {
