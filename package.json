@@ -11,7 +11,11 @@
   "scripts": {
     "test": "node test | faucet"
   },
-  "author": "Hugh Kennedy <hughskennedy@gmail.com> (http://hughsk.io/)",
+  "author": {
+    "name": "Hugh Kennedy",
+    "email": "hughskennedy@gmail.com",
+    "url": "http://hughsk.io/"
+  },
   "license": "MIT",
   "homepage": "http://hughsk.github.io/adobe-swatch-exchange",
   "repository": {
@@ -20,5 +24,11 @@
   },
   "bugs": {
     "url": "https://github.com/hughsk/adobe-swatch-exchange/issues"
-  }
+  },
+  "readme": "# adobe-swatch-exchange [![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges) #\n\nEncode/decode color palettes in Adobe's `.ase` format.\n\n## Usage ##\n\n[![adobe-swatch-exchange](https://nodei.co/npm/adobe-swatch-exchange.png?mini=true)](https://nodei.co/npm/adobe-swatch-exchange)\n\n### ase.decode(buffer) ###\n\nReturns a JSON object representing the contents of the `.ase` file, for example:\n\n``` json\n{\n  \"version\": \"1.0\",\n  \"groups\": [],\n  \"colors\": [{\n    \"name\": \"RGB Red\",\n    \"model\": \"RGB\",\n    \"color\": [1, 0, 0],\n    \"type\": \"global\"\n  }, {\n    \"name\": \"RGB Yellow\",\n    \"model\": \"RGB\",\n    \"color\": [1, 1, 0],\n    \"type\": \"global\"\n  }]\n}\n```\n\n## License ##\n\nMIT. See [LICENSE.md](http://github.com/hughsk/adobe-swatch-exchange/blob/master/LICENSE.md) for details.\n",
+  "readmeFilename": "README.md",
+  "_id": "adobe-swatch-exchange@0.0.0",
+  "_shasum": "27ecb7fc7a1b7000ab8f878fd7e8e18767546e43",
+  "_from": "adobe-swatch-exchange@",
+  "_resolved": "https://registry.npmjs.org/adobe-swatch-exchange/-/adobe-swatch-exchange-0.0.0.tgz"
 }
