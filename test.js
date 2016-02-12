@@ -14,6 +14,13 @@ test('decode', function(t) {
   t.end()
 })
 
+test('decode pantone', function(t) {
+  var buffer = fs.readFileSync('./pantone.ase')
+
+  ase.decode(buffer)
+  t.end()
+})
+
 function simplify(data) {
   data.colors.forEach(function(c) {
     c.color = c.color.map(function(n) {
