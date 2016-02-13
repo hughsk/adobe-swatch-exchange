@@ -98,7 +98,9 @@ function decode(buffer) {
   function readBlockLength() {
     blockLength = buffer.readUInt32BE(position)
     position += 4
-    state = STATE_GET_NAME
+    state = blockLength > 0
+      ? STATE_GET_NAME
+      : STATE_GET_MODE
   }
 
   function readBlockName() {
