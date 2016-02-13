@@ -79,9 +79,9 @@ function decode(buffer) {
 
   function readBlockMode() {
     switch (buffer.readUInt16BE(position)) {
-      case COLOR_START: colors.push(block = color = {}); break
-      case GROUP_START: groups.push(block = group = { colors: [] }); break
-      case GROUP_END: group = null; break
+      case COLOR_START: mode = MODE_COLOR; colors.push(block = color = {}); break
+      case GROUP_START: mode = MODE_GROUP; groups.push(block = group = { colors: [] }); break
+      case GROUP_END: mode = MODE_GROUP; group = null; break
 
       default:
         throw new Error('Unexpected block type at byte #' + position)
